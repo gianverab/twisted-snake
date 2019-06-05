@@ -4,6 +4,6 @@
 
 In the project directory, you can run:
 
-    ```
-    yarn start
-    ```
+```node
+yarn start
+```
