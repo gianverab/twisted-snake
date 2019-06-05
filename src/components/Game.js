@@ -2,12 +2,13 @@ import React, { Component } from "react";
 
 import Snake from "./Snake";
 import Food from "./Food";
+import { getFoodPosition, getSnakePosition } from "../helpers/methods";
 import "../styles/Game.css";
 
 class Game extends Component {
   state = {
-    food: [128, 128],
-    snakeCells: [[0, 256], [32, 256], [64, 256]]
+    food: getFoodPosition(),
+    snakeCells: getSnakePosition()
   };
   render() {
     // State destructuring assignment
