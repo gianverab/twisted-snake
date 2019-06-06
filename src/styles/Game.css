@@ -1,10 +1,25 @@
-.game-background {
+.game-wrapper {
+  width: 544px;
+  height: 576px;
+  margin: 50px auto 0;
+  padding: 0 16px 32px;
+  background: #76a222;
+  box-sizing: border-box;
+}
+
+.game-field {
   position: relative;
   width: 512px;
   height: 512px;
-  margin: 50px auto 0;
-  border: 1px solid #4d6f0d;
+  margin: 0 auto;
   background: url(../images/bg.jpg) no-repeat;
+}
+
+.game-score {
+  color: #fff;
+  background: url(../images/food.png) no-repeat;
+  background-position: left 32px center;
+  background-size: 32px;
 }
 
 .snake-cell {

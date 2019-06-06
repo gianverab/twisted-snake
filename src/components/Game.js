@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import Snake from "./Snake";
 import Food from "./Food";
+import ScoreBoard from "./ScoreBoard";
 import { getFoodPosition, getSnakePosition } from "../helpers/methods";
 import "../styles/Game.css";
 
@@ -9,16 +10,17 @@ class Game extends Component {
   state = {
     food: getFoodPosition(),
     snakeCells: getSnakePosition(),
-    direction: "right"
+    direction: "right",
+    score: 0
   };
 
   componentDidMount() {
-    setInterval(this.handleSnakeMove, 500);
+    setInterval(this.handleSnakeMove, 300);
     document.onkeydown = this.handleOnKeyDown;
   }
 
   componentDidUpdate() {
-    this.handleCollisionWithGameBorders();
+    this.handleGameCollision();
     this.handleSnakeFeeding();
   }
 
@@ -74,7 +76,7 @@ class Game extends Component {
     });
   };
 
-  handleCollisionWithGameBorders() {
+  handleGameCollision() {
     // Get the snake head
     let head = this.state.snakeCells[this.state.snakeCells.length - 1];
     // Calculate the collision with the game borders
@@ -108,6 +110,7 @@ class Game extends Component {
     this.setState({
       snakeCells: newSnake
     });
+    this.handleGameScore();
   }
 
   handleGameOver() {
@@ -115,7 +118,8 @@ class Game extends Component {
     this.handleNewDirection();
     this.setState({
       snakeCells: getSnakePosition(),
-      food: getFoodPosition()
+      food: getFoodPosition(),
+      score: 0
     });
   }
 
@@ -140,13 +144,22 @@ class Game extends Component {
     }
   }
 
+  handleGameScore() {
+    this.setState({
+      score: this.state.score + 1
+    });
+  }
+
   render() {
     // State destructuring assignment
-    const { snakeCells, food } = this.state;
+    const { snakeCells, food, score } = this.state;
     return (
-      <div className="game-background">
-        <Snake snakeCells={snakeCells} />
-        <Food food={food} />
+      <div className="game-wrapper">
+        <ScoreBoard score={score} />
+        <div className="game-field">
+          <Snake snakeCells={snakeCells} />
+          <Food food={food} />
+        </div>
       </div>
     );
   }
