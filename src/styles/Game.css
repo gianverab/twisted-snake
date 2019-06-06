@@ -15,11 +15,25 @@
   background: url(../images/bg.jpg) no-repeat;
 }
 
-.game-score {
+.score-panel {
   color: #fff;
+  font-size: 32px;
+  font-weight: bold;
+}
+.game-score {
   background: url(../images/food.png) no-repeat;
   background-position: left 32px center;
   background-size: 32px;
+  display: inline-block;
+  width: 100px;
+}
+
+.game-top-score {
+  background: url(../images/zoo.png) no-repeat;
+  background-position: left 32px center;
+  background-size: 32px;
+  display: inline-block;
+  width: 100px;
 }
 
 .snake-cell {

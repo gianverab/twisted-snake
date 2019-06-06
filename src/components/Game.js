@@ -11,7 +11,8 @@ class Game extends Component {
     food: getFoodPosition(),
     snakeCells: getSnakePosition(),
     direction: "right",
-    score: 0
+    score: 0,
+    topScore: 0
   };
 
   componentDidMount() {
@@ -123,7 +124,8 @@ class Game extends Component {
     this.setState({
       snakeCells: getSnakePosition(),
       food: getFoodPosition(),
-      score: 0
+      score: 0,
+      topScore: this.state.topScore
     });
   }
 
@@ -149,17 +151,26 @@ class Game extends Component {
   }
 
   handleGameScore() {
+    this.handleTopScore();
     this.setState({
       score: this.state.score + 1
     });
   }
 
+  handleTopScore() {
+    if (this.state.score >= this.state.topScore) {
+      this.setState({
+        topScore: this.state.topScore + 1
+      });
+    }
+  }
+
   render() {
     // State destructuring assignment
-    const { snakeCells, food, score } = this.state;
+    const { snakeCells, food, score, topScore } = this.state;
     return (
       <div className="game-wrapper">
-        <ScoreBoard score={score} />
+        <ScoreBoard score={score} topScore={topScore} />
         <div className="game-field">
           <Snake snakeCells={snakeCells} />
           <Food food={food} />
