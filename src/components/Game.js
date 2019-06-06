@@ -5,16 +5,22 @@ import Food from "./Food";
 import { getFoodPosition, getSnakePosition } from "../helpers/methods";
 import "../styles/Game.css";
 
+const initialState = {
+  food: getFoodPosition(),
+  snakeCells: getSnakePosition(),
+  direction: "right"
+};
+
 class Game extends Component {
-  state = {
-    food: getFoodPosition(),
-    snakeCells: getSnakePosition(),
-    direction: "right"
-  };
+  state = initialState;
 
   componentDidMount() {
     setInterval(this.handleSnakeMove, 500);
     document.onkeydown = this.handleOnKeyDown;
+  }
+
+  componentDidUpdate() {
+    this.handleGameCollision();
   }
 
   // Change the direction by the keys
@@ -58,13 +64,26 @@ class Game extends Component {
       head = [head[0], head[1] - 32];
     }
     body.push(head);
-    // Removing the tail of the snake
+    // Remove the tail of the snake
     body.shift();
     // Update the state
     this.setState({
       snakeCells: body
     });
   };
+
+  handleGameCollision() {
+    let head = this.state.snakeCells[this.state.snakeCells.length - 1];
+    // Calculate the collision with the borders
+    if (head[0] >= 512 || head[1] >= 512 || head[0] < 0 || head[1] < 0) {
+      this.handleGameOver();
+    }
+  }
+
+  handleGameOver() {
+    alert("Game Over");
+    this.setState(initialState);
+  }
 
   render() {
     // State destructuring assignment
