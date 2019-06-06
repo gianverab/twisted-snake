@@ -20,13 +20,15 @@ class Game extends Component {
   }
 
   componentDidUpdate() {
-    this.handleGameCollision();
+    this.handleCollisionWithGameBorders();
+    this.handleSnakeFeeding();
   }
 
-  // Change the direction by the keys
+  // Change the direction with the arrow keys
   handleOnKeyDown = event => {
     // State destructuring assignment
     const { direction } = this.state;
+    // Set the direction avoiding the snake to go backwards
     if (event.keyCode === 37 && direction !== "left") {
       this.setState({
         direction: "right"
@@ -50,10 +52,10 @@ class Game extends Component {
     // State destructuring assignment
     const { snakeCells, direction } = this.state;
     // Make a copy of our snake position
-    let body = [...snakeCells];
-    let head = body[body.length - 1];
+    let snake = [...snakeCells];
+    let head = snake[snake.length - 1];
 
-    // Update the position of the head
+    // Match the direction with the head
     if (direction === "right") {
       head = [head[0] + 32, head[1]];
     } else if (direction === "left") {
@@ -63,21 +65,51 @@ class Game extends Component {
     } else if (direction === "up") {
       head = [head[0], head[1] - 32];
     }
-    body.push(head);
+
+    // Update the position of the head
+    snake.push(head);
     // Remove the tail of the snake
-    body.shift();
-    // Update the state
+    snake.shift();
+    // Update the snake position to our state
     this.setState({
-      snakeCells: body
+      snakeCells: snake
     });
   };
 
-  handleGameCollision() {
+  handleCollisionWithGameBorders() {
+    // Get the snake head
     let head = this.state.snakeCells[this.state.snakeCells.length - 1];
-    // Calculate the collision with the borders
+    // Calculate the collision with the game borders
     if (head[0] >= 512 || head[1] >= 512 || head[0] < 0 || head[1] < 0) {
       this.handleGameOver();
     }
+  }
+
+  handleSnakeFeeding() {
+    // State destructuring assignment
+    const { snakeCells, food } = this.state;
+    // Get the snake head and food
+    let head = snakeCells[snakeCells.length - 1];
+    let acorn = food;
+    // Check when the snake head touches the food
+    if (head[0] === acorn[0] && head[1] === acorn[1]) {
+      // Set a new random position to the food
+      this.setState({
+        food: getFoodPosition()
+      });
+      this.handleSnakeGrowth();
+    }
+  }
+
+  handleSnakeGrowth() {
+    // Make a copy of our snake
+    let newSnake = [...this.state.snakeCells];
+    // Adding a new cell to the snake tail
+    newSnake.unshift([]);
+    // Update our snake with the new one
+    this.setState({
+      snakeCells: newSnake
+    });
   }
 
   handleGameOver() {
