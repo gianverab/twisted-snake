@@ -21,7 +21,12 @@ class Game extends Component {
 
   componentDidUpdate() {
     this.handleGameCollision();
+    this.handleSnakeCollision();
     this.handleSnakeFeeding();
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.handleSnakeMove);
   }
 
   // Change the direction with the arrow keys
@@ -83,6 +88,20 @@ class Game extends Component {
     if (head[0] >= 512 || head[1] >= 512 || head[0] < 0 || head[1] < 0) {
       this.handleGameOver();
     }
+  }
+
+  handleSnakeCollision() {
+    // Make a copy of our snake position
+    let snake = [...this.state.snakeCells];
+    let head = snake[snake.length - 1];
+    // Remove the head of the snake
+    snake.pop();
+    snake.forEach(cell => {
+      // Check when the snake head touches itself
+      if (head[0] === cell[0] && head[1] && cell[1]) {
+        this.handleGameOver();
+      }
+    });
   }
 
   handleSnakeFeeding() {
