@@ -9,36 +9,38 @@ class Game extends Component {
   state = {
     food: getFoodPosition(),
     snakeCells: getSnakePosition(),
-    direction: "left"
+    direction: "right"
   };
 
   componentDidMount() {
-    document.onkeydown = this.onKeyDown;
+    setInterval(this.handleSnakeMove, 500);
+    document.onkeydown = this.handleOnKeyDown;
   }
 
   // Change the direction by the keys
-  onKeyDown = event => {
-    if (event.keyCode === 37) {
+  handleOnKeyDown = event => {
+    // State destructuring assignment
+    const { direction } = this.state;
+    if (event.keyCode === 37 && direction !== "left") {
       this.setState({
         direction: "right"
       });
-    } else if (event.keyCode === 38) {
+    } else if (event.keyCode === 38 && direction !== "up") {
       this.setState({
         direction: "down"
       });
-    } else if (event.keyCode === 39) {
+    } else if (event.keyCode === 39 && direction !== "right") {
       this.setState({
         direction: "left"
       });
-    } else if (event.keyCode === 40) {
+    } else if (event.keyCode === 40 && direction !== "down") {
       this.setState({
         direction: "up"
       });
     }
-    this.movingSnake();
   };
 
-  movingSnake = () => {
+  handleSnakeMove = () => {
     // State destructuring assignment
     const { snakeCells, direction } = this.state;
     // Make a copy of our snake position
