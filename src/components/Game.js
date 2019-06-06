@@ -21,7 +21,6 @@ class Game extends Component {
 
   componentDidUpdate() {
     this.handleGameCollision();
-    this.handleSnakeCollision();
     this.handleSnakeFeeding();
   }
 
@@ -90,20 +89,6 @@ class Game extends Component {
     }
   }
 
-  handleSnakeCollision() {
-    // Make a copy of our snake position
-    let snake = [...this.state.snakeCells];
-    let head = snake[snake.length - 1];
-    // Remove the head of the snake
-    snake.pop();
-    snake.forEach(cell => {
-      // Check when the snake head touches itself
-      if (head[0] === cell[0] && head[1] && cell[1]) {
-        this.handleGameOver();
-      }
-    });
-  }
-
   handleSnakeFeeding() {
     // State destructuring assignment
     const { snakeCells, food } = this.state;
@@ -133,7 +118,7 @@ class Game extends Component {
   }
 
   handleGameOver() {
-    alert("Game Over");
+    alert("Game Over. Play again?");
     this.handleNewDirection();
     this.setState({
       snakeCells: getSnakePosition(),

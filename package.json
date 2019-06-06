@@ -1,7 +1,10 @@
 {
   "name": "twisted-snake",
   "version": "0.1.0",
+  "description": "Snake Game using React",
   "private": true,
+  "author": "Giancarlo Vera",
+  "license": "MIT",
   "dependencies": {
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
