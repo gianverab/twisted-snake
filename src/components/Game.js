@@ -5,14 +5,12 @@ import Food from "./Food";
 import { getFoodPosition, getSnakePosition } from "../helpers/methods";
 import "../styles/Game.css";
 
-const initialState = {
-  food: getFoodPosition(),
-  snakeCells: getSnakePosition(),
-  direction: "right"
-};
-
 class Game extends Component {
-  state = initialState;
+  state = {
+    food: getFoodPosition(),
+    snakeCells: getSnakePosition(),
+    direction: "right"
+  };
 
   componentDidMount() {
     setInterval(this.handleSnakeMove, 500);
@@ -114,7 +112,32 @@ class Game extends Component {
 
   handleGameOver() {
     alert("Game Over");
-    this.setState(initialState);
+    this.handleNewDirection();
+    this.setState({
+      snakeCells: getSnakePosition(),
+      food: getFoodPosition()
+    });
+  }
+
+  handleNewDirection() {
+    // Set a new direction when the game restart
+    if (this.state.direction === "left") {
+      this.setState({
+        direction: "up"
+      });
+    } else if (this.state.direction === "up") {
+      this.setState({
+        direction: "right"
+      });
+    } else if (this.state.direction === "right") {
+      this.setState({
+        direction: "down"
+      });
+    } else if (this.state.direction === "down") {
+      this.setState({
+        direction: "up"
+      });
+    }
   }
 
   render() {
