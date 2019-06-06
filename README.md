@@ -2,8 +2,6 @@
 
 ## Playing the game
 
-In the project directory, you can run:
+Visit the following url to play the game:
 
-```node
-yarn start
-```
+[Twisted Snake]([Quora profile link for Adam D'Angelo](http://www.quora.com/Adam-DAngelo))
